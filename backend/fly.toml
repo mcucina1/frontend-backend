@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for damp-leaf-2150 on 2023-07-10T13:51:43-06:00
+# fly.toml app configuration file generated for frosty-fog-3230 on 2023-07-10T14:03:27-06:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "damp-leaf-2150"
+app = "frosty-fog-3230"
 primary_region = "den"
 
 [http_service]
