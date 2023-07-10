@@ -1,7 +1,24 @@
 const express = require('express')
 const app = express()
-
+app.use(express.json())
 app.use(express.static('build'))
+const mongoose = require('mongoose')
+
+// MONGODB stuff
+const password = process.argv[2]
+
+const url =
+  `mongodb+srv://michaelc:${password}@cluster1.alali4a.mongodb.net/noteApp?retryWrites=true&w=majority`
+
+mongoose.set('strictQuery',false)
+mongoose.connect(url)
+
+const noteSchema = new mongoose.Schema({
+  content: String,
+  important: Boolean,
+})
+
+const Note = mongoose.model('Note', noteSchema)
 
 let notes = [
   {
@@ -29,8 +46,6 @@ let notes = [
     important: true
   }
 ]
-
-app.use(express.json())
 
 app.get('/', (req, res) => {
   res.send('<h1>Hello World!</h1>')
@@ -64,8 +79,10 @@ app.post('/api/notes', (request, response) => {
   response.json(note)
 })
 
-app.get('/api/notes', (req, res) => {
-  res.json(notes)
+app.get('/api/notes', (request, response) => {
+  Note.find({}).then(notes => {
+    response.json(notes)
+  })
 })
 
 app.delete('/api/notes/:id', (request, response) => {
